@@ -1,7 +1,6 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const SimpleInput = (props) => {
-  const nameInputRef = useRef();
   const [enteredName, setEnteredName] = useState('');
   const [enteredNameIsValid, setEnteredNameIsValid] = useState(false)
   const [enteredNameTouched, setEnteredNameTouched] = useState(false)
@@ -32,15 +31,8 @@ const SimpleInput = (props) => {
     // 1) You want to check on each keystroke use state
     // 2) You want to reset the value
     console.log(enteredName) 
-
-    // if you only want the value once when submitted, use (useRef)
-    const enteredValue = nameInputRef.current.value;
-    console.log(enteredValue)
-
     //2) reseting
     setEnteredName('')
-
-    //nameInputRef.current.value = '';// we are directly manipulating the DOM
   };
 
   const nameInputIsValid = !enteredNameIsValid && enteredNameTouched
@@ -54,7 +46,6 @@ const SimpleInput = (props) => {
       <div className={nameInputClasses}>
         <label htmlFor='name'>Your Name</label>
         <input 
-          ref={nameInputRef} 
           type='text' 
           id='name' 
           onChange={nameInputChangeHandler}
@@ -72,3 +63,39 @@ const SimpleInput = (props) => {
 };
 
 export default SimpleInput;
+
+
+{/*
+// Sample Code with useRef
+import { useEffect, useRef, useState } from 'react'
+
+const SimpleInput = (props) => {
+  const nameInputRef = useRef();
+
+  const formSubmissionHandler = event => {
+    event.preventDefault(); // to prevent the HTTP request when 
+    // if you only want the value once when submitted, use (useRef)
+    const enteredValue = nameInputRef.current.value;
+    console.log(enteredValue)
+    //nameInputRef.current.value = '';// we are directly manipulating the DOM
+  };
+
+  return (
+    <form onSubmit={formSubmissionHandler}>
+      <div className="form-control">
+        <label htmlFor='name'>Your Name</label>
+        <input 
+          ref={nameInputRef} 
+          type='text' 
+          id='name' 
+          />
+      </div>
+      <div className="form-actions">
+        <button>Submit</button>
+      </div>
+    </form>
+  );
+};
+
+export default SimpleInput;
+*/}
