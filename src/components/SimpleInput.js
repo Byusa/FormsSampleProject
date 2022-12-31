@@ -1,52 +1,38 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 const SimpleInput = (props) => {
   const [enteredName, setEnteredName] = useState('');
-  const [enteredNameIsValid, setEnteredNameIsValid] = useState(false)
   const [enteredNameTouched, setEnteredNameTouched] = useState(false)
 
-  useEffect(() => {
-    if (enteredNameIsValid){
-      console.log("Name input is valid")
-    }
-  }, [enteredNameIsValid])
+  const enteredNameIsValid = enteredName.trim() !== '';
+  const nameInputIsValid = !enteredNameIsValid && enteredNameTouched
+
 
   const nameInputChangeHandler = event  => {
     setEnteredName(event.target.value);
-    
-    if(enteredName.trim() === ''){
-      setEnteredNameIsValid(false)
-    }
   };
 
   const nameInputBlurHandler = event => {
     setEnteredNameTouched(true)
-    if(enteredName.trim() === ''){
-      setEnteredNameIsValid(false)
-    }
   };
 
   const formSubmissionHandler = event => {
     event.preventDefault(); // to prevent the HTTP request when 
 
     setEnteredNameTouched(true);
-    
-    // setEnteredNameIsValid(true)
-    if(enteredName.trim() === ''){
-      setEnteredNameIsValid(false)
+
+    if (!enteredNameIsValid){
       return;
     }
 
-    setEnteredNameIsValid(true)
     // use useState when:
     // 1) You want to check on each keystroke use state
     // 2) You want to reset the value
     console.log(enteredName) 
     //2) reseting
     setEnteredName('')
+    setEnteredNameTouched(false)
   };
-
-  const nameInputIsValid = !enteredNameIsValid && enteredNameTouched
   
   const nameInputClasses = nameInputIsValid 
   ? 'form-control invalid' 
