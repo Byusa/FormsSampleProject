@@ -13,6 +13,17 @@ const SimpleInput = (props) => {
 
   const nameInputChangeHandler = event  => {
     setEnteredName(event.target.value);
+    
+    if(enteredName.trim() === ''){
+      setEnteredNameIsValid(false)
+    }
+  };
+
+  const nameInputBlurHandler = event => {
+    setEnteredNameTouched(true)
+    if(enteredName.trim() === ''){
+      setEnteredNameIsValid(false)
+    }
   };
 
   const formSubmissionHandler = event => {
@@ -49,6 +60,7 @@ const SimpleInput = (props) => {
           type='text' 
           id='name' 
           onChange={nameInputChangeHandler}
+          onBlur={nameInputBlurHandler} // fires whenever this input looses focus
           value={enteredName}
           />
       </div>
