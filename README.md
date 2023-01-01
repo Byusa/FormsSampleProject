@@ -42,5 +42,9 @@
     2. In formSubmissionHandleif(enteredName.trim() === ''){     setEnteredNameIsValid(false)     return;}
     3. Below the <input …./>{!enteredNameIsValid && <p className="error-text">Name must not be empty</p>}
 7. Handling the “Was touched” State
+    1. Add another state variable   const [enteredNameTouched, setEnteredNameTouched] = useState(false)
+8. React To Lost Focus 
+    1. <input onBlur={nameInputBlurHandler}/>
+    2. const nameInputBlurHandler = event => {     setEnteredNameTouched(true)};
+9. Managing the overall form Validity 
     1. 
-8. 
