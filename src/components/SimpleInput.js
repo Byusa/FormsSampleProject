@@ -1,5 +1,4 @@
 // Sample Code with custome made hooks
-import { useState } from 'react';
 import useInput from '../hooks/user-input';
 
 const SimpleInput = (props) => {
@@ -13,26 +12,19 @@ const SimpleInput = (props) => {
     reset: resetNameInput
    } = useInput(value => value.trim() !=='' );
 
-  const [enteredEmail, setEnteredEmail] = useState('')
-  const [enteredEmailTouched, setEnteredEmailTouched] = useState(false)
-
-  const emailNameIsValid = enteredEmail.includes('@');
-  const enteredEmailIsInvalid = !emailNameIsValid && enteredEmailTouched
-
+  const {
+    value: enteredEmail,
+    isValid: enteredEmailIsValid,
+    hasError: emailInputHasError,
+    valueChangeHandler: emailChangeHandler, 
+    inputBlurHandler: emailBlurHandler, 
+    reset: resetEmailInput
+  } = useInput(value => value.includes('@'));
 
   let formIsValid = false;
 
-  if (enteredNameIsValid && emailNameIsValid){
+  if (enteredNameIsValid && enteredEmailIsValid){
     formIsValid = true
-  }
-   
-
-  const emailInputChangeHandler = event => {
-    setEnteredEmail(event.target.value)
-  }
-
-  const emailInputBlurHandler =  event => {
-    setEnteredEmailTouched(true)
   }
 
   const formSubmissionHandler = event => {
@@ -42,7 +34,7 @@ const SimpleInput = (props) => {
       return;
     }
 
-    if (!emailNameIsValid){
+    if (!enteredEmailIsValid){
       return;
     }
 
@@ -53,17 +45,15 @@ const SimpleInput = (props) => {
     console.log(enteredEmail) 
 
     //2) reseting
-    resetNameInput()
-
-    setEnteredEmail('')
-    setEnteredEmailTouched(false)
+    resetNameInput();
+    resetEmailInput();
   };
   
   const nameInputClasses = nameInputHasError
   ? 'form-control invalid' 
   : 'form-control';
 
-  const emailInputClasses = enteredEmailIsInvalid
+  const emailInputClasses = emailInputHasError
   ? 'form-control invalid' 
   : 'form-control';
 
@@ -87,12 +77,12 @@ const SimpleInput = (props) => {
         <input 
           type='email' 
           id='email' 
-          onChange={emailInputChangeHandler}
-          onBlur={emailInputBlurHandler} // fires whenever this input looses focus
+          onChange={emailChangeHandler}
+          onBlur={emailBlurHandler} // fires whenever this input looses focus
           value={enteredEmail}
           />
       </div>
-      {enteredEmailIsInvalid && (
+      {emailInputHasError && (
         <p className="error-text">Please enter valid email</p>
       )}
       <div className="form-actions">
@@ -103,6 +93,7 @@ const SimpleInput = (props) => {
 };
 
 export default SimpleInput;
+
 {/*
 // Sample Code with 2 inputs 
 import { useState } from 'react'
