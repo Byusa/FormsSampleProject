@@ -48,3 +48,9 @@
     2. const nameInputBlurHandler = event => {     setEnteredNameTouched(true)};
 9. Managing the overall form Validity 
     1. 
+10. Adding A custom input hook
+    1. Create hooks folder in src
+    2. Add hook
+        1. User-input.js
+    3. 
+
